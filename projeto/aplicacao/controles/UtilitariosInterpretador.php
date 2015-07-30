@@ -11,6 +11,37 @@ class UtilitariosInterpretador {
             print "erro";
         }
     }
+    public function addVetor($operacao,$projeto){
+        if(strcmp($operacao,"metodo")==0){
+            
+        }else if(strcmp($operacao,"class")==0){
+            
+        }else if(strcmp($operacao,"package")==0){
+            
+        }
+    }
+    public function excluirCaracteres($conteudo) {
+        $arquivo = UtilitariosInterpretador::lerConfiguracao("inutilizadas");
+        $texto = UtilitariosInterpretador::lerArquivo($arquivo);
+        
+        $texto= explode(";",implode('',$texto));
+
+        for($i =0; $i < count($conteudo);$i++){//retira palavras e caracteres invalidos
+            for($j =0; $j < count($texto);$j++){ 
+                if(isset($texto[$j]) && isset($conteudo[$i])){
+                    if(strcmp($texto[$j], $conteudo[$i])==0){
+                        unset($conteudo[$i]);
+                    }
+                }
+            }
+        } 
+       $arr = [];
+       $cont = 0;
+        foreach($conteudo as $linha){//recontroi o array redefinindo o index
+            $arr[$cont++] = $linha;
+        }
+        return $arr;
+    }
 
     public function verificapariedade($conteudo) {
         require_once 'modelo/class-Pilha.php';
@@ -45,17 +76,21 @@ class UtilitariosInterpretador {
                 }
             }
         }
-        $lista =$p->getLista();
-        print "<br><br>";
-        print_r($p->getLista());
+        $arr = [];
+       $cont = 0;
+        foreach($p->getLista() as $linha){//recontroi o array redefinindo o index
+            $arr[$cont++] = $linha;
+        }
+        $lista = $arr;
+        print "<br><br> testando ---------------";
+        print_r($lista);
         print "<br><br>";
         $arr = [];
         if (sizeof($p->getLista()) === 0) {
             return $conteudo;
         } else {
-
             for ($i = count($conteudo); $i > 0; $i--) {
-                for ($j =1; $j <=  count($lista); $j++) {
+                for ($j = 1; $j <= count($lista); $j++) {
                     if ($lista[$j] == '{') {
                         print "fooasdasdasdsaoi";
                         $arr[$cont] = '{';

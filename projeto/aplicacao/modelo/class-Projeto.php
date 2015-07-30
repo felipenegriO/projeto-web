@@ -7,6 +7,8 @@ class Projeto {
     private $NomePackgePrincipal; //Nome do pacote que tera a classe principal String
     private $caminho; //pasta com arquivos fisicos do projeto
     private $criadoPor; // dono do projeto
+    private $arrPacotes;
+    private $contadorPacotes;
 
     function __construct($nomeProjeto, $NomeClassePrincipal, $NomePackgePrincipal) {
         $NomeClassePrincipal = $this->verificaVariavel($NomeClassePrincipal, $nomeProjeto);
@@ -14,6 +16,9 @@ class Projeto {
         $this->nomeProjeto = $nomeProjeto;
         $this->NomeClassePrincipal = $NomeClassePrincipal;
         $this->NomePackgePrincipal = $NomePackgePrincipal;
+        $this->arrPacotes = [];
+        $this->contadorPacotes = 0;
+        $this->criarProjeto();
     }
 
     //GETTERS E SETTERS   
@@ -68,7 +73,7 @@ class Projeto {
         }
     }
 
-    public function criarProjeto() {//cria projeto fisicamente
+    private function criarProjeto() {//cria projeto fisicamente
         //cria a pasta do projeto aqui o codigo aqui o pacote principal aqui a classe principal
         $this->caminho = 'projetos/' . $this->nomeProjeto . '/src/' . $this->NomePackgePrincipal . '/';
         if (!is_dir($this->caminho) && strlen($this->caminho) > 0) {
@@ -76,24 +81,31 @@ class Projeto {
         } else {
             return;
         }
+        //cria o pacote com a classe principal
+        include_once 'modelo/class-Pacote.php';
+        $pacote = new Pacote($this->NomePackgePrincipal);
         //cria classe inicial do projeto contendo ou nao classe principal
+        include_once("modelo/class-Classe.php");
+        //cria o objeto da classe
+        $classe = new Classe("public",false,$this->NomeClassePrincipal,false,false,$this->NomePackgePrincipal);
+        //cria o arquivo fisicamente
         $classePrincipal = $this->caminho . $this->NomeClassePrincipal . ".java";
+        //cria o metodo main
+         include_once("modelo/class-Metodo.php");
+         $metodo = new Metodo("public","static","void","main","String[] arg");
+         //adicionar o metodo main para a classe criada;
+         $classe->addMetodo($metodo);
+         //adicionamos a classe ao pacote
+         $pacote->addClasse($classe);
+         $this->arrPacotes[$this->contadorPacotes] = $pacote;
+         $this->contadorPacotes++;
+        //abrir o arquivo para gravar os dados...
         $fp = fopen($classePrincipal, "a");
-        if (true) {//se tiver classe principal 
-            $texto = "package " . $this->NomePackgePrincipal . ";\n\n"
-                    . "public class " . $this->NomeClassePrincipal . " {\n\n"
-                    . "	public static void  main (String[] arg){\n\n"
-                    . "	}\n"
-                    . "}";
-        } else {//se nao cria só a classe
-            $texto = "\npackage " . $this->NomePackgePrincipal . ";\n\n"
-                    . "public class " . $this->NomeClassePrincipal . " {\n\n"
-                    . "}";
-        }// Escreve classe principal no arquivo
-        $escreve = fwrite($fp, $texto);
+        //pega o conteudo da classe criada e seta para ser escrito fisicamente
+        $texto =implode(' ',$classe->getClasse());
+        fwrite($fp, $texto);
         // Fecha o arquivo
         fclose($fp);
-        print $texto;
     }
 
     function deletarProjeto() {

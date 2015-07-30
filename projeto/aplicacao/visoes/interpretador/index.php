@@ -15,32 +15,39 @@
     </body>
 
 
-<script>
- 
-      var javaEditor = CodeMirror.fromTextArea(document.getElementById("Codigoarea"), {
-        lineNumbers: true,
-        matchBrackets: true,
-        mode: "text/x-java"
-      });
-      var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
-      CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
-      
-    function carregarMicrofone(){
-        reco.toggleStartStop();
-    }
-    var reco = new WebSpeechRecognition();
-    reco.statusText('status');
-    reco.statusImage('status_img');
-    reco.finalResults('input_field');
-
-    reco.onEnd = function () {
-        if (reco.final_transcript != '') {
-            var texto =document.getElementById('input_field').value;
-            location.href = 'index.php?controle=Interpretador&acao=tratarSintaxe&texto='+texto;
+    <script>
+        function enter() {
+            if (event.keyCode == 13) {
+                enviarDados();
+            }
         }
-    };
-    
-</script>
+        var javaEditor = CodeMirror.fromTextArea(document.getElementById("Codigoarea"), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: "text/x-java"
+        });
+        var mac = CodeMirror.keyMap.default == CodeMirror.keyMap.macDefault;
+        CodeMirror.keyMap.default[(mac ? "Cmd" : "Ctrl") + "-Space"] = "autocomplete";
+        function enviarDados() {
+            var texto = document.getElementById('input_field').value;
+            location.href = 'index.php?controle=Interpretador&acao=tratarMorfologia&texto=' + texto;
+        }
+        function carregarMicrofone() {
+            reco.toggleStartStop();
+        }
+        var reco = new WebSpeechRecognition();
+        reco.statusText('status');
+        reco.statusImage('status_img');
+        reco.finalResults('input_field');
+
+        reco.onEnd = function () {
+            if (reco.final_transcript != '') {
+                var texto = document.getElementById('input_field').value;
+                location.href = 'index.php?controle=Interpretador&acao=tratarMorfologia&texto=' + texto;
+            }
+        };
+
+    </script>
 </html>
 
 

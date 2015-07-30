@@ -1,13 +1,1 @@
-
-1 class 
-2 metodo 
-3 int 
-4 byte 
-5 boolean 
-6 char 
-7 double 
-8 float 
-9 int 
-10 long 
-11 void 
-12 short  
+package;class;metodo;int;byte;boolean;char;double;float;int;long;void;short;

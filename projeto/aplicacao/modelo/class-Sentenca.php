@@ -43,30 +43,20 @@ class Sentenca {
            
             $arquivo = UtilitariosInterpretador::lerConfiguracao("operacao");
             $linhas = UtilitariosInterpretador::lerArquivo($arquivo);
-            
-            $vetor = explode(' ', implode('', $vetorOrdenado));
+            $linhas =  explode(";",implode("",$linhas));
+           // $vetor = explode(' ', implode(' ', $vetorOrdenado));
+            print_r($vetorOrdenado);
             for ($j = 0; $j < count($linhas); $j++) {
-                for ($i = 0; $i < count($vetor); $i++) {
-                    if ($linhas[$j] == $vetor[$i]) {
-                        return $vetor[$i];
+                for ($i = 0; $i < count($vetorOrdenado); $i++) {
+                    if (strcmp($linhas[$j]." ", $vetorOrdenado[$i])==0) {
+                        return $vetorOrdenado[$i];
                     }
                 }
             }
+            return null;
         }
         
        
-    }
-
-    function VerificaSentenca($conteudo, $op) {
-        if ($op == "class") {
-            for ($i = 0; $i < count($conteudo); $i++) {
-                if ($conteudo[$i] == $op) {
-                    return true;
-                }
-            }
-        } else {
-            return false;
-        }
     }
 
 
