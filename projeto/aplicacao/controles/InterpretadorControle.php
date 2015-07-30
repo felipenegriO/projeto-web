@@ -1,0 +1,101 @@
+<?php
+
+class InterpretadorControle extends Controle {
+
+    /**
+     * método form para ser
+     * executado dentro de nosso MVC
+     */
+    public function form() {
+        die('Método form executado.');
+    }
+
+    /**
+     * Método listar que será
+     * executado pela URL.
+     */
+    public function listar() {
+        die('O método listar foi executado.');
+    }
+
+    /**
+     * Método que será chamado
+     * caso nenhuma acao seja informada
+     */
+    public function index() {
+        $ini = parse_ini_file("../config/conf.ini");
+//pega os dados do arquivo de configuração a qual facilita a manutençã0
+        $this->visao->set('tituloMenu', $ini['nomeSoftware']);
+        $this->visao->set('descricao', $ini['descricao']);
+        $this->visao->set('autor', $ini['autor']);
+        $this->visao->set('mic', '../imagens/mic.gif');
+        $this->visao->set('titulo', 'Editor');
+          include_once("UtilitariosInterpretador.php");
+        $utilitario= new UtilitariosInterpretador();
+        $this->visao->set('conteudo', ($utilitario::lerArquivoProjeto()));
+        $this->visao->render('interpretador/index');
+    }
+
+    public function tratarSintaxe() {
+
+        include_once("UtilitariosInterpretador.php");
+        $utilitario = new UtilitariosInterpretador();
+
+        $conteudo = $utilitario::lerArquivoProjeto();
+        $this->visao->set('conteudo', $conteudo);
+        $conteudoParaTRatar = $_GET['texto'];
+        $conteudoParaTRatar = $utilitario->stringParaArray($conteudoParaTRatar);
+        print_r($conteudoParaTRatar);
+        print "<br>";
+//--------------------------------------------RECONHER PALAVRAS-----------------
+        //Primeiro passo: Descobrir o comando envolvido... criação de variavel? De classe? Metodo?
+        //Interpretar a palavra dita e torna-la reservada do Java
+        $objPalavra = $utilitario->reconherPalavra($conteudoParaTRatar);
+        $arr = $objPalavra->getReservadas();
+
+        print "<br>";
+        //Neste momento fica-se dois vetores.. um de palavras reservadas e um de não reservadas a qual vamos tratar a abaixo
+        //----------------------------------------------MONTAR FRASE------------
+       // if (count($objPalavra->getReservadas()) > 0) {
+
+            require_once("modelo/class-Sentenca.php");
+            $objSentenca = new Sentenca($objPalavra);
+
+            //  print_r($objSentenca->getSentenca());
+            print "<br>";
+            //----------------------------------------------MONTAR SENTENCA-----
+            //Nesta parte insere de acordo com o pedido chaves, parenteses e ponto e virgula
+            //Primeiramente classificamos a sentenca, ou seja qual operacao.. um classe um metodo uma variavel
+
+            $op = $objSentenca->ClassificarSentenca($objSentenca->getSentenca());
+
+            if ($objSentenca->VerificaSentenca($conteudoParaTRatar, $op)) {
+                return;
+            }
+
+            // print $op;
+            //Neste segundo momento inserimos os caracteres especiais
+
+            $objSentenca->implementarSintaxe($op, $objSentenca->getSentenca());
+
+            print_R($objSentenca->getSentenca());
+//----------------------------------------------TRATAR VARIAVEIS DA FRASE------------------------------------------
+
+            $resultado = $utilitario->incluirVariaveis($objSentenca, $objPalavra);
+            print"<br><br>";
+            print_r($resultado);
+//----------------------------------------------CONCATENANDO-------------------------------------------------------
+            //$conteudo = explode(' ', $conteudo);
+            print"<br><br>";
+            print_r($conteudo);
+//-------------------------------Aqui sera implementado pilha------------------------------------------------------
+            print "<br><br><br><br><br>";
+            
+           $auxCont =$utilitario->verificapariedade(explode(' ',$conteudo));//verifica se chaves e parenteses do conteudo
+           print_r($auxCont);
+           $auxResultado = $utilitario->verificapariedade($resultado);
+           print_r($auxResultado);
+           //salvar no arquivo e voltar a visao 
+           
+    }
+}

@@ -1,0 +1,13 @@
+#ativando a rescrita de URL
+RewriteEngine On
+
+#Condições de rescrita
+#folder
+RewriteCond %{REQUEST_FILENAME} !-d 
+#file
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-l
+
+#regra de rescrita
+RewriteRule ^(.+)$ aplicacao/index.php?url=$1 [QSA,L]
+#aqui sempre sera enviado para index...

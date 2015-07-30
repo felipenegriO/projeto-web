@@ -1,0 +1,87 @@
+PARA DEIXAR COMENTARIO NO FIM DA FRASE E NAO PODE COLOCAR EM LINHA COM NUMEROS 
+É nescessário deixar um espaço no fim de cada linha sempre
+Encapsulamento sempre vai no começo 
+
+1 public 
+2 private 
+3 protected 
+4 package 
+5 default 
+
+modificadores 
+6 abstract 
+7 final 
+8 static 
+outros 
+9 class 
+10 interface 
+11 extends 
+12 implements 
+13 throws 
+
+tipo de variaveis 
+14 byte 
+15 boolean 
+16 char 
+17 double 
+18 float 
+19 int 
+20 long 
+21 void 
+22 short 
+
+23 metodo  
+
+assert
+
+break
+
+case
+catch
+
+
+const
+continue
+
+do
+
+else
+enum
+
+false
+
+finally
+
+for
+goto
+if
+
+import
+instanceof
+
+
+
+native
+new
+null
+
+
+
+
+return
+
+
+strictfp
+super
+switch
+synchronized
+this
+throw
+
+transient
+true
+try
+
+volatile
+while
+
