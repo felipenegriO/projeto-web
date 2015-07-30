@@ -30,42 +30,50 @@ class InterpretadorControle extends Controle {
         $this->visao->set('autor', $ini['autor']);
         $this->visao->set('mic', '../imagens/mic.gif');
         $this->visao->set('titulo', 'Editor');
-          include_once("UtilitariosInterpretador.php");
+        include_once("UtilitariosInterpretador.php");
         $utilitario= new UtilitariosInterpretador();
         $this->visao->set('conteudo', ($utilitario::lerArquivoProjeto()));
         $this->visao->render('interpretador/index');
     }
 
-    public function tratarSintaxe() {
-
+    public function tratarMorfologia() {
         include_once("UtilitariosInterpretador.php");
+        
         $utilitario = new UtilitariosInterpretador();
-
         $conteudo = $utilitario::lerArquivoProjeto();
+        
         $this->visao->set('conteudo', $conteudo);
+        
         $conteudoParaTRatar = $_GET['texto'];
         $conteudoParaTRatar = $utilitario->stringParaArray($conteudoParaTRatar);
-        print_r($conteudoParaTRatar);
-        print "<br>";
+        
+//--------------RETIRAR CARACTERES E PALAVRAS NÃO CONCIDERADAS------------------
+        
+        $conteudoParaTRatar = $utilitario->excluirCaracteres($conteudoParaTRatar);
+        
 //--------------------------------------------RECONHER PALAVRAS-----------------
-        //Primeiro passo: Descobrir o comando envolvido... criação de variavel? De classe? Metodo?
-        //Interpretar a palavra dita e torna-la reservada do Java
+//Primeiro passo: Descobrir o comando envolvido... criação de variavel? 
+//De classe? Metodo?
+//Interpretar a palavra dita e torna-la reservada do Java
+        
         $objPalavra = $utilitario->reconherPalavra($conteudoParaTRatar);
         $arr = $objPalavra->getReservadas();
-
-        print "<br>";
-        //Neste momento fica-se dois vetores.. um de palavras reservadas e um de não reservadas a qual vamos tratar a abaixo
-        //----------------------------------------------MONTAR FRASE------------
+        print_r($arr);
+         print "<br>";
+         
+//Neste momento fica-se dois vetores.. um de palavras reservadas e um de não 
+//reservadas a qual vamos tratar a abaixo
+//----------------------------------------------MONTAR FRASE------------
        // if (count($objPalavra->getReservadas()) > 0) {
 
             require_once("modelo/class-Sentenca.php");
             $objSentenca = new Sentenca($objPalavra);
-
             //  print_r($objSentenca->getSentenca());
             print "<br>";
             //----------------------------------------------MONTAR SENTENCA-----
-            //Nesta parte insere de acordo com o pedido chaves, parenteses e ponto e virgula
-            //Primeiramente classificamos a sentenca, ou seja qual operacao.. um classe um metodo uma variavel
+//Nesta parte insere de acordo com o pedido chaves, parenteses e ponto e virgula
+//Primeiramente classificamos a sentenca, ou seja qual operacao..
+// um classe um metodo uma variavel
 
             $op = $objSentenca->ClassificarSentenca($objSentenca->getSentenca());
 
@@ -74,28 +82,28 @@ class InterpretadorControle extends Controle {
             }
 
             // print $op;
-            //Neste segundo momento inserimos os caracteres especiais
+//Neste segundo momento inserimos os caracteres especiais
 
             $objSentenca->implementarSintaxe($op, $objSentenca->getSentenca());
 
             print_R($objSentenca->getSentenca());
-//----------------------------------------------TRATAR VARIAVEIS DA FRASE------------------------------------------
+//----------------------------------------------TRATAR VARIAVEIS DA FRASE-------
 
             $resultado = $utilitario->incluirVariaveis($objSentenca, $objPalavra);
             print"<br><br>";
             print_r($resultado);
-//----------------------------------------------CONCATENANDO-------------------------------------------------------
+//----------------------------------------------CONCATENANDO--------------------
             //$conteudo = explode(' ', $conteudo);
             print"<br><br>";
             print_r($conteudo);
-//-------------------------------Aqui sera implementado pilha------------------------------------------------------
+//-------------------------------Aqui sera implementado pilha-------------------
             print "<br><br><br><br><br>";
-            
-           $auxCont =$utilitario->verificapariedade(explode(' ',$conteudo));//verifica se chaves e parenteses do conteudo
+            //verifica se chaves e parenteses do conteudo
+           $auxCont =$utilitario->verificapariedade(explode(' ',$conteudo));
            print_r($auxCont);
            $auxResultado = $utilitario->verificapariedade($resultado);
            print_r($auxResultado);
-           //salvar no arquivo e voltar a visao 
+//salvar no arquivo e voltar a visao 
            
     }
 }
