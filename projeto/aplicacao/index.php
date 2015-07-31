@@ -5,6 +5,10 @@ require_once 'biblioteca/visao.php';
 require_once 'biblioteca/controle.php';
 require_once 'biblioteca/config.php';
 require_once 'biblioteca/banco.php';
+require_once 'modelo/class-Projeto.php';
+require_once 'modelo/class-Pacote.php';
+require_once 'modelo/class-Classe.php';
+require_once 'modelo/class-Metodo.php';
 session_start();
 
 if (!isset($_SESSION['usuario']) == true and empty($_SESSION['usuario'])) {//aqui define primeiro acesso

@@ -35,12 +35,10 @@ class HomeControle extends Controle {
               } */
             //se nao cria o projeto
             //criar fisicamente uma pasta com nome do arquvo
-             
-            $projeto->criarProjeto();
             //inserir no banco de dados 
             //ciar sessao do projeto com seus dados em um string com a funcao serialize
             if (!isset($_SESSION['projeto']) == true and empty($_SESSION['projeto'])) {
-                $_SESSION['projeto'] = serialize($projeto);
+                $_SESSION['projeto'] = $projeto;
             }
             //setar index com controle do interpretador e acao default
             //feito isso sera direcionado para a  janela do editor

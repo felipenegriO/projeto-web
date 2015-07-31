@@ -1,5 +1,7 @@
 <?php
 
+include('UtilitariosInterpretador.php');
+
 class InterpretadorControle extends Controle {
 
     /**
@@ -32,7 +34,7 @@ class InterpretadorControle extends Controle {
         $this->visao->set('titulo', 'Editor');
         include_once("UtilitariosInterpretador.php");
         $utilitario = new UtilitariosInterpretador();
-        $this->visao->set('conteudo', ($utilitario::lerArquivoProjeto()));
+       // $this->visao->set('conteudo', ($utilitario->lerArquivoProjeto()));
         $this->visao->render('interpretador/index');
     }
 
@@ -75,10 +77,11 @@ class InterpretadorControle extends Controle {
         $op = $objSentenca->ClassificarSentenca($objSentenca->getSentenca());
         print "<br>" . $op . "<br>";
         if(isset($op) && $op !== null){
-            $projeto =unserialize($_SESSION['projeto']);
             include_once("modelo/class-Projeto.php");
-            print $projeto->getNomeProjeto();
-             $utilitario->addVetor($op,$projeto);
+            $projeto = $_SESSION['projeto'];
+            
+            //print $projeto->getNomeProjeto();
+            $utilitario->addVetor($op,$projeto);
         }
         //caso exista uma op adiciona ao vetor ...
        
@@ -93,7 +96,7 @@ class InterpretadorControle extends Controle {
 //----------------------------------------------CONCATENANDO--------------------
         //$conteudo = explode(' ', $conteudo);
         print"<br><br>";
-        $conteudo = $utilitario::lerArquivoProjeto();
+        $conteudo = $utilitario->lerArquivoProjeto();
 //-------------------------------Aqui sera implementado pilha-------------------
         print "<br><br><br><br><br>";
         //verifica se chaves e parenteses do conteudo

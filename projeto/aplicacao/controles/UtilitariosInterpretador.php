@@ -146,8 +146,11 @@ class UtilitariosInterpretador {
 
     public function lerArquivoProjeto() {
         require_once 'modelo/class-Projeto.php';
-        $projeto = unserialize($_SESSION['projeto']);
-        return implode('', file($projeto->getCaminho() . $projeto->getNomeProjeto() . ".java"));
+        $projeto = $_SESSION['projeto'];
+        //var_dump ($projeto);
+        print $projeto->getCaminho();
+        $aux = file($projeto->getCaminho().$projeto->getNomeClassePrincipal() . ".java");
+        return implode('', $aux);
     }
 
     public function reconherPalavra($palavra) {

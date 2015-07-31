@@ -3,12 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/projeto-web/projeto/aplicacao/controles/UtilitariosInterpretador.php</file>
-            <file>file:/C:/xampp/htdocs/projeto-web/projeto/aplicacao/modelo/class-Projeto.php</file>
-            <file>file:/C:/xampp/htdocs/projeto-web/projeto/aplicacao/modelo/class-Sentenca.php</file>
-            <file>file:/C:/xampp/htdocs/projeto-web/projeto/aplicacao/controles/HomeControle.php</file>
-            <file>file:/C:/xampp/htdocs/projeto-web/projeto/aplicacao/controles/InterpretadorControle.php</file>
-            <file>file:/C:/xampp/htdocs/projeto-web/projeto/aplicacao/visoes/interpretador/index.php</file>
+            <file>file:/C:/xampp/htdocs/web/projeto/aplicacao/modelo/class-Projeto.php</file>
+            <file>file:/C:/xampp/htdocs/web/projeto/aplicacao/controles/UtilitariosInterpretador.php</file>
+            <file>file:/C:/xampp/htdocs/web/projeto/aplicacao/controles/HomeControle.php</file>
+            <file>file:/C:/xampp/htdocs/web/projeto/aplicacao/controles/InterpretadorControle.php</file>
+            <file>file:/C:/xampp/htdocs/web/projeto/aplicacao/index.php</file>
         </group>
     </open-files>
 </project-private>

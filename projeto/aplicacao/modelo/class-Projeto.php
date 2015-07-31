@@ -1,5 +1,9 @@
 <?php
 
+include_once 'modelo/class-Pacote.php';
+include_once("modelo/class-Classe.php");
+include_once("modelo/class-Metodo.php");
+
 class Projeto {
 
     private $nomeProjeto; //no do projeto String
@@ -10,7 +14,7 @@ class Projeto {
     private $arrPacotes;
     private $contadorPacotes;
 
-    function __construct($nomeProjeto, $NomeClassePrincipal, $NomePackgePrincipal) {
+    public function __construct($nomeProjeto, $NomeClassePrincipal, $NomePackgePrincipal) {
         $NomeClassePrincipal = $this->verificaVariavel($NomeClassePrincipal, $nomeProjeto);
         $NomePackgePrincipal = $this->verificaVariavel($NomePackgePrincipal, $nomeProjeto);
         $this->nomeProjeto = $nomeProjeto;
@@ -81,17 +85,15 @@ class Projeto {
         } else {
             return;
         }
-        //cria o pacote com a classe principal
-        include_once 'modelo/class-Pacote.php';
         $pacote = new Pacote($this->NomePackgePrincipal);
         //cria classe inicial do projeto contendo ou nao classe principal
-        include_once("modelo/class-Classe.php");
+        
         //cria o objeto da classe
         $classe = new Classe("public",false,$this->NomeClassePrincipal,false,false,$this->NomePackgePrincipal);
         //cria o arquivo fisicamente
         $classePrincipal = $this->caminho . $this->NomeClassePrincipal . ".java";
         //cria o metodo main
-         include_once("modelo/class-Metodo.php");
+         
          $metodo = new Metodo("public","static","void","main","String[] arg");
          //adicionar o metodo main para a classe criada;
          $classe->addMetodo($metodo);
@@ -108,7 +110,7 @@ class Projeto {
         fclose($fp);
     }
 
-    function deletarProjeto() {
+    public function deletarProjeto() {
         rmdir("projetos/" . $this->nomeProjeto) or die("erro ao excluir diretório");
     }
 
